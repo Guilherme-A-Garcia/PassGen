@@ -17,7 +17,7 @@ def set_window_icon(root):
                 icon_path = os.path.join(os.getcwd(), 'icon.ico')
         else:
 
-            icon_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'assets/icon.ico')
+            icon_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'assets/images/icon.ico')
         
         if os.path.exists(icon_path):
             root.iconbitmap(icon_path)
