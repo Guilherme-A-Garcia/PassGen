@@ -35,6 +35,9 @@ MANIFEST
 # Nuitka build artifacts
 *.build/
 *.dist/
+*.onefile-build/
+*.exe
+icon.ico
 
 # Installer logs
 pip-log.txt
