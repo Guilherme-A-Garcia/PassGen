@@ -1,8 +1,5 @@
-import tkinter as tk 
+import tkinter as tk, random, string, os, sys
 from tkinter import messagebox, filedialog, Label, Button, Entry, Frame
-import random, string, os, sys
-
-password = ''
 
 # Functions
 
@@ -35,7 +32,6 @@ def dynamic_res(d_root, horizontal, vertical):
     d_root.geometry(f"{horizontal}x{vertical}+{x}+{y}")
 
 def generate():
-    global password
     try:
         char_count = (int(char_entry.get()))
     except Exception:
@@ -74,7 +70,7 @@ def save():
         if file:
             try:
                 file.write(generated_entry_label.get())
-                file.close
+                file.close()
             except Exception as e:
                 err_msg(f"Error: {e}")
 
