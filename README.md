@@ -27,8 +27,8 @@ The [binary](https://github.com/Guilherme-A-Garcia/PassGen/releases) was compile
 - No external libraries
 
 ## Requirements
-The only requirement if you wish to use the source code version instead of binary is [Python](https://www.python.org/downloads/). 🐍<br>
-Otherwise you won't need to install any third-party.<br> 
+The only requirement if you wish to use the source code version is [Python](https://www.python.org/downloads/). 🐍<br>
+Otherwise, if you're planning on using the binary, you won't need to install any third-party application or interpreter.<br> 
 While this works for Windows, you will still need the [Wine compatibility layer](https://www.winehq.org/) for Linux. 🍷
 
 ## How to Use
