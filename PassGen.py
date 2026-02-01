@@ -3,6 +3,9 @@ from tkinter import messagebox, filedialog, Label, Button, Entry, Frame
 
 # Functions
 
+def simple_handling(widget, key, event):
+    widget.bind(key, lambda e: event())
+
 def err_msg(text):
     messagebox.showerror(title="Error", message=text)
 
@@ -86,6 +89,7 @@ def copy():
 if __name__ == '__main__':
 
     mainroot = tk.Tk()
+    mainroot.bind("<Button-1>", lambda e: e.widget.focus())
     mainroot.title("PassGen")
     dynamic_res(mainroot, 500, 280)
     mainroot.resizable(False, False)
@@ -104,9 +108,11 @@ if __name__ == '__main__':
 
     char_entry = Entry(char_frame, bd=1, relief="flat", font=("Arial", 13))
     char_entry.grid(column=1, row=0)
+    simple_handling(char_entry, "<Return>", generate)
 
     gen_button = Button(mainroot, text="Generate", font=("",15), command=generate)
     gen_button.pack(pady=15)
+    simple_handling(gen_button, "<Return>", generate)
 
     generated_frame = Frame(mainroot, highlightbackground="black", highlightthickness=2)
     generated_frame.pack(pady=(0,5))
@@ -128,12 +134,15 @@ if __name__ == '__main__':
 
     save_to_txt_button = Button(buttons_frame, text="Save", font=("Arial", 10), command=save)
     save_to_txt_button.grid(row=0, column=0)
+    simple_handling(save_to_txt_button, "<Return>", save)
 
     clear_button = Button(buttons_frame, text="Clear fields", font=("Arial", 10), command=clear)
     clear_button.grid(row=0, column=1, padx=5)
+    simple_handling(clear_button, "<Return>", clear)
 
     copy_button = Button(buttons_frame, text="Copy", font=("Arial", 10), command=copy)
     copy_button.grid(row=0, column=2)
+    simple_handling(copy_button, "<Return>", copy)
 
-
+    char_entry.focus_set()
     mainroot.mainloop()
