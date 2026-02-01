@@ -1,5 +1,5 @@
 import tkinter as tk, random, string, os, sys
-from tkinter import messagebox, filedialog, Label, Button, Entry, Frame
+from tkinter import messagebox, filedialog, Label, Button, Entry, Frame, ttk
 
 # Functions
 
@@ -85,6 +85,7 @@ def copy():
         mainroot.clipboard_clear()
         mainroot.clipboard_append(text)
 
+# Main instance and loose code
 
 if __name__ == '__main__':
 
@@ -106,15 +107,18 @@ if __name__ == '__main__':
     char_label = Label(char_frame, text="Enter the character amount:", font=("Arial", 13))
     char_label.grid(column=0, row=0)
 
-    char_entry = Entry(char_frame, bd=1, relief="flat", font=("Arial", 13))
+    char_entry = Entry(char_frame, bd=0, relief="solid", font=("Arial", 13), insertwidth=1, highlightcolor="#8d8d8d", highlightbackground="#d3d3d3", highlightthickness=1)
     char_entry.grid(column=1, row=0)
     simple_handling(char_entry, "<Return>", generate)
 
-    gen_button = Button(mainroot, text="Generate", font=("",15), command=generate)
+    gen_button = Button(mainroot, text="Generate", font=("",15), command=generate, )
     gen_button.pack(pady=15)
     simple_handling(gen_button, "<Return>", generate)
 
-    generated_frame = Frame(mainroot, highlightbackground="black", highlightthickness=2)
+    separator = ttk.Separator(mainroot, orient=tk.HORIZONTAL)
+    separator.pack(fill="x", pady=(0,15), padx=53)
+
+    generated_frame = Frame(mainroot, highlightcolor="gray", highlightbackground="gray", highlightthickness=1)
     generated_frame.pack(pady=(0,5))
     generated_frame.columnconfigure((0, 1), weight=1)
     generated_frame.rowconfigure(0, weight=1)
@@ -123,24 +127,24 @@ if __name__ == '__main__':
     generated_label.grid(column=0, row=0)
 
     generated_entry_label = Entry(generated_frame, state="readonly", font=("Arial", 13,), fg="black", bd=0)
-    g_entry_label_text = tk.StringVar(value="") # <--- text that appears in the generated entry label, changed dynamically.
+    g_entry_label_text = tk.StringVar(value="")
     generated_entry_label.config(textvariable=g_entry_label_text)
     generated_entry_label.grid(column=1, row=0)
 
     buttons_frame = Frame(mainroot)
-    buttons_frame.pack(pady=0)
+    buttons_frame.pack(pady=5)
     char_frame.columnconfigure((0, 2), weight=1)
     char_frame.rowconfigure(0, weight=1)
 
-    save_to_txt_button = Button(buttons_frame, text="Save", font=("Arial", 10), command=save)
+    save_to_txt_button = Button(buttons_frame, text="Save", font=("Arial", 12), command=save)
     save_to_txt_button.grid(row=0, column=0)
     simple_handling(save_to_txt_button, "<Return>", save)
 
-    clear_button = Button(buttons_frame, text="Clear fields", font=("Arial", 10), command=clear)
+    clear_button = Button(buttons_frame, text="Clear fields", font=("Arial", 12), command=clear)
     clear_button.grid(row=0, column=1, padx=5)
     simple_handling(clear_button, "<Return>", clear)
 
-    copy_button = Button(buttons_frame, text="Copy", font=("Arial", 10), command=copy)
+    copy_button = Button(buttons_frame, text="Copy", font=("Arial", 12), command=copy)
     copy_button.grid(row=0, column=2)
     simple_handling(copy_button, "<Return>", copy)
 
