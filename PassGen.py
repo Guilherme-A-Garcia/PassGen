@@ -35,26 +35,37 @@ def dynamic_res(d_root, horizontal, vertical):
     d_root.geometry(f"{horizontal}x{vertical}+{x}+{y}")
 
 def generate():
-    try:
-        char_count = (int(char_entry.get()))
-    except Exception:
-        pass
-        
-    has_letters = any(c.isalpha() for c in char_entry.get())
-    if not char_entry.get():
+    value = char_entry.get().strip()
+    
+    if not value:
         err_msg("Please, enter a number of characters.")
-    elif has_letters:
-        err_msg("Please, enter a valid number of characters.")
-    elif char_count <= 4:
-        err_msg("Please enter a bigger number of characters for your safety.")
-    else:
-        try:
-            pool = " " + string.ascii_letters + string.digits + string.punctuation
-            password =  ''.join(random.choices(pool, k=int(char_entry.get())))
-            g_entry_label_text.set(password)
-            info_msg("Password generated successfully.")
-        except Exception as e:
-            err_msg(f"Error: {e}")
+        char_entry.focus_set()
+        return
+    
+    if not value.isdigit():
+        err_msg("Please, enter a valid number of characters to be generated.")
+        char_entry.select_range(0, tk.END)
+        char_entry.focus_set()
+        return
+    
+    char_count = int(value)
+
+    if char_count <= 5:
+        err_msg("Too short. \nThe minimum length is 6 for better security.")
+        char_entry.select_range(0, tk.END)
+        char_entry.focus_set()
+        return
+    elif char_count > 300:
+        err_msg("Too long. \nThe maximum length is 300.")
+        char_entry.select_range(0, tk.END)
+        char_entry.focus_set()
+        return
+
+    pool = " " + string.ascii_letters + string.digits + string.punctuation
+    password =  ''.join(random.choices(pool, k=int(char_entry.get())))
+    g_entry_label_text.set(password)
+    info_msg("Password generated successfully.")
+
 
 def clear():
     char_entry.delete(0, tk.END)
