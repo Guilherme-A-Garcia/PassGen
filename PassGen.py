@@ -55,7 +55,8 @@ def generate():
         char_entry.select_range(0, tk.END)
         char_entry.focus_set()
         return
-    elif char_count > 300:
+    
+    if char_count > 300:
         err_msg("Too long. \nThe maximum length is 300.")
         char_entry.select_range(0, tk.END)
         char_entry.focus_set()
@@ -99,6 +100,7 @@ def copy():
 # Main instance and loose code
 
 if __name__ == '__main__':
+    KEY_RETURN = '<Return>'
 
     mainroot = tk.Tk()
     mainroot.bind("<Button-1>", lambda e: e.widget.focus())
@@ -120,11 +122,11 @@ if __name__ == '__main__':
 
     char_entry = Entry(char_frame, bd=0, relief="solid", font=("Arial", 13), insertwidth=1, highlightcolor="#8d8d8d", highlightbackground="#d3d3d3", highlightthickness=1)
     char_entry.grid(column=1, row=0)
-    simple_handling(char_entry, "<Return>", generate)
+    simple_handling(char_entry, KEY_RETURN, generate)
 
     gen_button = Button(mainroot, text="Generate", font=("",15), command=generate, )
     gen_button.pack(pady=15)
-    simple_handling(gen_button, "<Return>", generate)
+    simple_handling(gen_button, KEY_RETURN, generate)
 
     separator = ttk.Separator(mainroot, orient=tk.HORIZONTAL)
     separator.pack(fill="x", pady=(0,15), padx=53)
@@ -149,15 +151,15 @@ if __name__ == '__main__':
 
     save_to_txt_button = Button(buttons_frame, text="Save", font=("Arial", 12), command=save)
     save_to_txt_button.grid(row=0, column=0)
-    simple_handling(save_to_txt_button, "<Return>", save)
+    simple_handling(save_to_txt_button, KEY_RETURN, save)
 
     clear_button = Button(buttons_frame, text="Clear fields", font=("Arial", 12), command=clear)
     clear_button.grid(row=0, column=1, padx=5)
-    simple_handling(clear_button, "<Return>", clear)
+    simple_handling(clear_button, KEY_RETURN, clear)
 
     copy_button = Button(buttons_frame, text="Copy", font=("Arial", 12), command=copy)
     copy_button.grid(row=0, column=2)
-    simple_handling(copy_button, "<Return>", copy)
+    simple_handling(copy_button, KEY_RETURN, copy)
 
     char_entry.focus_set()
     mainroot.mainloop()
