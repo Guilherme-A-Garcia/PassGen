@@ -75,6 +75,14 @@ class Controller:
         self.app.generation_frame.g_entry_label_text.set(password)
         info_msg("Password generated successfully.")
 
+    def clear(self):
+        self.app.char_frame.char_entry.delete(0, tk.END)
+        if not self.app.generation_frame.g_entry_label_text.get():
+            err_msg("There is nothing to be cleared.")
+        else:
+            self.app.generation_frame.g_entry_label_text.set("")
+            info_msg("All fields have been cleared successfully.")
+
 class PassGenApp(tk.Tk):
     def __init__(self, controller):
         super().__init__()
