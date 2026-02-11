@@ -37,10 +37,43 @@ def dynamic_res(d_root, horizontal, vertical):
     d_root.geometry(f"{horizontal}x{vertical}+{x}+{y}")
 
 
-class Controller():
+class Controller:
     def __init__(self):
         self.app = PassGenApp(self)
         self.app
+
+    def generate(self):
+        self.value = self.app.char_frame.char_entry.get().strip()
+        
+        if not self.value:
+            err_msg("Please, enter a number of characters.")
+            self.app.char_frame.char_entry.focus_set()
+            return
+        
+        if not self.value.isdigit():
+            err_msg("Please, enter a valid number of characters to be generated.")
+            self.app.char_frame.char_entry.select_range(0, tk.END)
+            self.app.char_frame.char_entry.focus_set()
+            return
+        
+        self.char_count = int(self.value)
+
+        if self.char_count <= 5:
+            err_msg("Too short. \nThe minimum length is 6 for better security.")
+            self.app.char_frame.char_entry.select_range(0, tk.END)
+            self.app.char_frame.char_entry.focus_set()
+            return
+        
+        if self.char_count > 300:
+            err_msg("Too long. \nThe maximum length is 300.")
+            self.app.char_frame.char_entry.select_range(0, tk.END)
+            self.app.char_frame.char_entry.focus_set()
+            return
+
+        pool = " " + string.ascii_letters + string.digits + string.punctuation
+        password =  ''.join(random.choices(pool, k=int(self.app.char_frame.char_entry.get())))
+        self.app.generation_frame.g_entry_label_text.set(password)
+        info_msg("Password generated successfully.")
 
 class PassGenApp(tk.Tk):
     def __init__(self, controller):
@@ -58,10 +91,11 @@ class PassGenApp(tk.Tk):
 
         self.char_frame = CharFrame(self)
         self.char_frame.pack(pady=(20,0))
+        simple_handling(self.char_frame.char_entry, "<Return>", lambda: self.controller.generate())
 
-        self.gen_button = Button(self, text="Generate", font=("",15))  # command=generate
+        self.gen_button = Button(self, text="Generate", font=("",15), command=lambda: self.controller.generate())
         self.gen_button.pack(pady=15)
-        # simple_handling(gen_button, KEY_RETURN, generate)
+        simple_handling(self.gen_button, "<Return>", lambda: self.controller.generate())
 
         self.separator = ttk.Separator(self, orient=tk.HORIZONTAL)
         self.separator.pack(fill="x", pady=(0,15), padx=53)
@@ -75,8 +109,8 @@ class PassGenApp(tk.Tk):
         self.char_frame.char_entry.focus_set()
 
 class CharFrame(ttk.Frame):
-    def __init__(self, parent):
-        super().__init__(parent)
+    def __init__(self, parent,):
+        super().__init__(parent,)
 
         self.columnconfigure((0, 1), weight=1)
         self.rowconfigure(0, weight=1)
@@ -86,7 +120,6 @@ class CharFrame(ttk.Frame):
 
         self.char_entry = Entry(self, bd=0, relief="solid", font=("Arial", 13), insertwidth=1, highlightcolor="#8d8d8d", highlightbackground="#d3d3d3", highlightthickness=1)
         self.char_entry.grid(column=1, row=0)
-        # simple_handling(char_entry, KEY_RETURN, generate)
 
 class GenerationFrame(tk.Frame):
     def __init__(self, parent, hlcolor, hlthick):
