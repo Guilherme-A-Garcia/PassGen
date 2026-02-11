@@ -38,6 +38,8 @@ def dynamic_res(d_root, horizontal, vertical):
 
 
 class Controller:
+    RETURN_KEY = "<Return>"
+
     def __init__(self):
         self.app = PassGenApp(self)
         self.app
@@ -47,11 +49,11 @@ class Controller:
         self.app.buttons_frame.copy_button.config(command=self.copy)
         self.app.buttons_frame.clear_button.config(command=self.clear)
 
-        simple_handling(self.app.char_frame.char_entry, "<Return>", self.generate)
-        simple_handling(self.app.gen_button, "<Return>", self.generate)
-        simple_handling(self.app.buttons_frame.save_to_txt_button, "<Return>", self.save)
-        simple_handling(self.app.buttons_frame.clear_button, "<Return>", self.clear)
-        simple_handling(self.app.buttons_frame.copy_button, "<Return>", self.copy)
+        simple_handling(self.app.char_frame.char_entry, Controller.RETURN_KEY, self.generate)
+        simple_handling(self.app.gen_button, Controller.RETURN_KEY, self.generate)
+        simple_handling(self.app.buttons_frame.save_to_txt_button, Controller.RETURN_KEY, self.save)
+        simple_handling(self.app.buttons_frame.clear_button, Controller.RETURN_KEY, self.clear)
+        simple_handling(self.app.buttons_frame.copy_button, Controller.RETURN_KEY, self.copy)
 
         self.app.bind("<Button-1>", lambda e: e.widget.focus())
         
