@@ -42,6 +42,11 @@ class Controller:
         self.app = PassGenApp(self)
         self.app
 
+        self.app.gen_button.config(command=self.generate)
+        self.app.buttons_frame.save_to_txt_button.config(command=self.save)
+        self.app.buttons_frame.copy_button.config(command=self.copy)
+        self.app.buttons_frame.clear_button.config(command=self.clear)
+
     def generate(self):
         self.value = self.app.char_frame.char_entry.get().strip()
         
@@ -122,7 +127,7 @@ class PassGenApp(tk.Tk):
         self.char_frame.pack(pady=(20,0))
         simple_handling(self.char_frame.char_entry, "<Return>", lambda: self.controller.generate())
 
-        self.gen_button = Button(self, text="Generate", font=("",15), command=lambda: self.controller.generate())
+        self.gen_button = Button(self, text="Generate", font=("",15))
         self.gen_button.pack(pady=15)
         simple_handling(self.gen_button, "<Return>", lambda: self.controller.generate())
 
@@ -174,15 +179,15 @@ class ButtonsFrame(ttk.Frame):
         self.columnconfigure((0, 2), weight=1)
         self.rowconfigure(0, weight=1)
 
-        self.save_to_txt_button = Button(self, text="Save", font=("Arial", 12))  # command=save
+        self.save_to_txt_button = Button(self, text="Save", font=("Arial", 12))
         self.save_to_txt_button.grid(row=0, column=0)
         # simple_handling(self.save_to_txt_button, KEY_RETURN, save)
 
-        self.clear_button = Button(self, text="Clear fields", font=("Arial", 12))  # command=clear
+        self.clear_button = Button(self, text="Clear fields", font=("Arial", 12))
         self.clear_button.grid(row=0, column=1, padx=5)
         # simple_handling(clear_button, KEY_RETURN, clear)
 
-        self.copy_button = Button(self, text="Copy", font=("Arial", 12))  # command=copy
+        self.copy_button = Button(self, text="Copy", font=("Arial", 12))
         self.copy_button.grid(row=0, column=2)
         # simple_handling(copy_button, KEY_RETURN, copy)
 
