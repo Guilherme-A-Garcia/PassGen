@@ -40,11 +40,11 @@ While this works for Windows, you will still need the [Wine compatibility layer]
 If you wish to clear, copy or export the generated password into a .txt file, click the respective button.
 
 ## Roadmap
-- Refactor from procedural to OOP;
-- Migrate to CustomTkinter;
-- Proper Linux support;
-- Themes;
-- The main dish: Add cryptography to the mix!
+- ☑ Refactor from procedural to OOP;
+- ❌ Migrate to CustomTkinter;
+- ❌ Proper Linux support;
+- ❌ Themes;
+- ❌ The main dish: Add cryptography to the mix!
 
 ## Contributing
 ✨ Contributions are always welcome! ✨<br><br>
