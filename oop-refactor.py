@@ -95,6 +95,14 @@ class Controller:
                     self.file.close()
                 except Exception as e:
                     err_msg(f"Error: {e}")
+    
+    def copy(self):
+        if not self.app.generation_frame.g_entry_label_text.get():
+            err_msg("There is nothing to be copied. Try generating a password first.")
+        else:
+            self.text = self.app.generation_frame.generated_entry_label.get()
+            self.app.clipboard_clear()
+            self.app.clipboard_append(self.text)
 
 class PassGenApp(tk.Tk):
     def __init__(self, controller):
