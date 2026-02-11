@@ -37,6 +37,7 @@ MANIFEST
 *.dist/
 *.onefile-build/
 *.exe
+binaries/
 icon.ico
 
 # Installer logs
