@@ -1,5 +1,5 @@
 import tkinter as tk, random, string, os, sys
-from tkinter import messagebox, filedialog, Label, Button, Entry, Frame, ttk
+from tkinter import messagebox, filedialog, Label, Button, Entry, ttk
 
 def main():
     app = Controller()
