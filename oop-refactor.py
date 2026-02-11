@@ -49,6 +49,9 @@ class Controller:
 
         simple_handling(self.app.char_frame.char_entry, "<Return>", self.generate)
         simple_handling(self.app.gen_button, "<Return>", self.generate)
+        simple_handling(self.app.buttons_frame.save_to_txt_button, "<Return>", self.save)
+        simple_handling(self.app.buttons_frame.clear_button, "<Return>", self.clear)
+        simple_handling(self.app.buttons_frame.copy_button, "<Return>", self.copy)
 
     def generate(self):
         self.value = self.app.char_frame.char_entry.get().strip()
@@ -182,15 +185,12 @@ class ButtonsFrame(ttk.Frame):
 
         self.save_to_txt_button = Button(self, text="Save", font=("Arial", 12))
         self.save_to_txt_button.grid(row=0, column=0)
-        # simple_handling(self.save_to_txt_button, KEY_RETURN, save)
 
         self.clear_button = Button(self, text="Clear fields", font=("Arial", 12))
         self.clear_button.grid(row=0, column=1, padx=5)
-        # simple_handling(clear_button, KEY_RETURN, clear)
 
         self.copy_button = Button(self, text="Copy", font=("Arial", 12))
         self.copy_button.grid(row=0, column=2)
-        # simple_handling(copy_button, KEY_RETURN, copy)
 
 if __name__ == "__main__":
     main()
