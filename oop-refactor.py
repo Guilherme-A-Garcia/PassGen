@@ -53,6 +53,8 @@ class Controller:
         simple_handling(self.app.buttons_frame.clear_button, "<Return>", self.clear)
         simple_handling(self.app.buttons_frame.copy_button, "<Return>", self.copy)
 
+        self.app.bind("<Button-1>", lambda e: e.widget.focus())
+        
     def generate(self):
         self.value = self.app.char_frame.char_entry.get().strip()
         
@@ -120,7 +122,6 @@ class PassGenApp(tk.Tk):
         super().__init__()
         self.controller = controller
 
-        self.bind("<Button-1>", lambda e: e.widget.focus())
         self.title("PassGen")
         dynamic_res(self, 500, 280)
         self.resizable(False, False)
@@ -148,7 +149,7 @@ class PassGenApp(tk.Tk):
 
 class CharFrame(ttk.Frame):
     def __init__(self, parent,):
-        super().__init__(parent,)
+        super().__init__(parent)
 
         self.columnconfigure((0, 1), weight=1)
         self.rowconfigure(0, weight=1)
