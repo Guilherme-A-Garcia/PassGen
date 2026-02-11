@@ -47,6 +47,9 @@ class Controller:
         self.app.buttons_frame.copy_button.config(command=self.copy)
         self.app.buttons_frame.clear_button.config(command=self.clear)
 
+        simple_handling(self.app.char_frame.char_entry, "<Return>", self.generate)
+        simple_handling(self.app.gen_button, "<Return>", self.generate)
+
     def generate(self):
         self.value = self.app.char_frame.char_entry.get().strip()
         
@@ -125,12 +128,10 @@ class PassGenApp(tk.Tk):
 
         self.char_frame = CharFrame(self)
         self.char_frame.pack(pady=(20,0))
-        simple_handling(self.char_frame.char_entry, "<Return>", lambda: self.controller.generate())
-
+        
         self.gen_button = Button(self, text="Generate", font=("",15))
         self.gen_button.pack(pady=15)
-        simple_handling(self.gen_button, "<Return>", lambda: self.controller.generate())
-
+        
         self.separator = ttk.Separator(self, orient=tk.HORIZONTAL)
         self.separator.pack(fill="x", pady=(0,15), padx=53)
 
