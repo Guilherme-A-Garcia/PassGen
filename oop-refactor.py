@@ -82,6 +82,19 @@ class Controller:
         else:
             self.app.generation_frame.g_entry_label_text.set("")
             info_msg("All fields have been cleared successfully.")
+    
+    def save(self):
+        if not self.app.generation_frame.g_entry_label_text.get():
+            err_msg("There is nothing to be saved. Try generating a password first.")
+        else:
+            self.file = filedialog.asksaveasfile(title="Select a directory", defaultextension=".txt", filetypes=[("Text files", "*.txt")])
+            print(self.file)
+            if self.file:
+                try:
+                    self.file.write(self.app.generation_frame.generated_entry_label.get())
+                    self.file.close()
+                except Exception as e:
+                    err_msg(f"Error: {e}")
 
 class PassGenApp(tk.Tk):
     def __init__(self, controller):
