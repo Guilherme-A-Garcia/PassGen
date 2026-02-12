@@ -10,10 +10,10 @@ def main():
     app.app.mainloop()
 
 def err_msg(text):
-    CTkMessagebox(title="Error", message=text, icon="cancel", option_focus=1, button_color="#780404", button_hover_color="#500000")
+    CTkMessagebox(title="Error", message=text, icon="cancel", option_focus=1, button_color="#950808", button_hover_color="#630202", )
 
 def info_msg(text):
-    CTkMessagebox(title="Info", message=text, icon="info", option_focus=1, button_color="#780404", button_hover_color="#500000")
+    CTkMessagebox(title="Info", message=text, icon="info", option_focus=1, button_color="#950808", button_hover_color="#630202")
 
 def set_window_icon(root):
     try:
@@ -127,7 +127,7 @@ class PassGenApp(ctk.CTk):
     def __init__(self, controller):
         super().__init__()
         self.controller = controller
-        self._set_appearance_mode("dark-blue")
+        self._set_appearance_mode("System")
 
         self.title("PassGen")
         dynamic_res(self, 500, 280)
@@ -140,7 +140,7 @@ class PassGenApp(ctk.CTk):
         self.char_frame = CharFrame(self)
         self.char_frame.pack(pady=(20,0))
         
-        self.gen_button = ctk.CTkButton(self, text="Generate", font=("",15), fg_color="#780404", hover_color="#500000", corner_radius=10, border_color="#440000", border_width=1)
+        self.gen_button = ctk.CTkButton(self, text="Generate", font=("",15), fg_color="#950808", hover_color="#630202", corner_radius=10, border_color="#440000", border_width=1)
         self.gen_button.pack(pady=15)
         
         self.separator = ctk.CTkFrame(self, height=2, fg_color="#1C1C1C")
@@ -191,13 +191,13 @@ class ButtonsFrame(ctk.CTkFrame):
         self.columnconfigure((0, 2), weight=1)
         self.rowconfigure(0, weight=1)
 
-        self.save_to_txt_button = ctk.CTkButton(self, text="Save", font=("Arial", 12), fg_color="#780404", hover_color="#500000", corner_radius=10, border_color="#440000", border_width=1)
+        self.save_to_txt_button = ctk.CTkButton(self, text="Save", font=("Arial", 12), fg_color="#950808", hover_color="#630202", corner_radius=10, border_color="#440000", border_width=1)
         self.save_to_txt_button.grid(row=0, column=0)
 
-        self.clear_button = ctk.CTkButton(self, text="Clear fields", font=("Arial", 12), fg_color="#780404", hover_color="#500000", corner_radius=10, border_color="#440000", border_width=1)
+        self.clear_button = ctk.CTkButton(self, text="Clear fields", font=("Arial", 12), fg_color="#950808", hover_color="#630202", corner_radius=10, border_color="#440000", border_width=1)
         self.clear_button.grid(row=0, column=1, padx=5)
 
-        self.copy_button = ctk.CTkButton(self, text="Copy", font=("Arial", 12), fg_color="#780404", hover_color="#500000", corner_radius=10, border_color="#440000", border_width=1)
+        self.copy_button = ctk.CTkButton(self, text="Copy", font=("Arial", 12), fg_color="#950808", hover_color="#630202", corner_radius=10, border_color="#440000", border_width=1)
         self.copy_button.grid(row=0, column=2)
 
 if __name__ == "__main__":
