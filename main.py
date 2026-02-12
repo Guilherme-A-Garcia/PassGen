@@ -67,7 +67,7 @@ class Controller:
         
         if not self.value.isdigit():
             err_msg("Please, enter a valid number of characters to be generated.")
-            self.app.char_frame.char_entry.select_range(0, tk.END)
+            self.app.char_frame.char_entry.select_range(0, ctk.END)
             self.app.char_frame.char_entry.focus_set()
             return
         
@@ -75,13 +75,13 @@ class Controller:
 
         if self.char_count <= 5:
             err_msg("Too short. \nThe minimum length is 6 for better security.")
-            self.app.char_frame.char_entry.select_range(0, tk.END)
+            self.app.char_frame.char_entry.select_range(0, ctk.END)
             self.app.char_frame.char_entry.focus_set()
             return
         
         if self.char_count > 300:
             err_msg("Too long. \nThe maximum length is 300.")
-            self.app.char_frame.char_entry.select_range(0, tk.END)
+            self.app.char_frame.char_entry.select_range(0, ctk.END)
             self.app.char_frame.char_entry.focus_set()
             return
 
@@ -91,7 +91,7 @@ class Controller:
         info_msg("Password generated successfully.")
 
     def clear(self):
-        self.app.char_frame.char_entry.delete(0, tk.END)
+        self.app.char_frame.char_entry.delete(0, ctk.END)
         if not self.app.generation_frame.g_entry_label_text.get():
             err_msg("There is nothing to be cleared.")
         else:
