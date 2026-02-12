@@ -175,8 +175,8 @@ class GenerationFrame(ctk.CTkFrame):
         self.columnconfigure(1, weight=3, minsize=230)
         self.rowconfigure(0, weight=1)
 
-        selfgenerated_label = ctk.CTkLabel(self, text="Generated password: ", font=("Arial", 14), fg_color="transparent")
-        selfgenerated_label.grid(column=0, row=0)
+        self.generated_label = ctk.CTkLabel(self, text="Generated password: ", font=("Arial", 14), fg_color="transparent")
+        self.generated_label.grid(column=0, row=0)
 
         self.generated_entry_label = ctk.CTkEntry(self, state="readonly", font=("Arial", 13,), border_width=0)
         self.g_entry_label_text = ctk.StringVar(value="")
