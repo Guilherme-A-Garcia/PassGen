@@ -110,7 +110,7 @@ class Controller:
             print(self.file)
             if self.file:
                 try:
-                    self.file.write(self.app.generation_frame.generated_entry_label.get())
+                    self.file.write(self.app.generation_frame.g_entry_label_text.get())
                     self.file.close()
                 except Exception as e:
                     err_msg(f"Error: {e}")
