@@ -48,8 +48,6 @@ class Controller:
         self.app = PassGenApp(self)
         self.button_wiring()
         self.event_wiring()
-
-        self.app.bind("<Button-1>", lambda e: e.widget.focus())
     
     def button_wiring(self):
         buttons_actions = [(self.app.gen_button, self.generate),
@@ -67,6 +65,7 @@ class Controller:
                           (self.app.buttons_frame.copy_button, self.copy)]
         for element, event in elements_events:
             simple_handling(widget=element, key=Controller.RETURN_KEY, event=event)
+        self.app.bind("<Button-1>", lambda e: e.widget.focus())
 
     def generate(self):
         self.value = self.app.char_frame.char_entry.get().strip()
