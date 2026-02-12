@@ -46,7 +46,6 @@ class Controller:
 
     def __init__(self):
         self.app = PassGenApp(self)
-        self.app
 
         self.app.gen_button.configure(command=self.generate)
         self.app.buttons_frame.save_to_txt_button.configure(command=self.save)
