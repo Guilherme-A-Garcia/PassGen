@@ -9,9 +9,6 @@ def main():
     app = Controller()
     app.app.mainloop()
 
-def simple_handling(widget, key, event):
-    widget.bind(key, lambda e: event())
-
 def err_msg(text):
     CTkMessagebox(title="Error", message=text, icon="cancel", option_focus=1, button_color="#780404", button_hover_color="#500000")
 
@@ -32,6 +29,9 @@ def set_window_icon(root):
             root.iconbitmap(icon_path)
     except Exception:
         pass
+
+def simple_handling(widget, key, event):
+    widget.bind(key, lambda e: event())
 
 def dynamic_res(d_root, horizontal, vertical):
     screen_height = d_root.winfo_screenheight()
