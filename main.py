@@ -1,5 +1,9 @@
-import customtkinter as ctk, random, string, os, sys
 from CTkMessagebox import CTkMessagebox
+import customtkinter as ctk
+import random
+import string
+import sys
+import os
 
 def main():
     app = Controller()
