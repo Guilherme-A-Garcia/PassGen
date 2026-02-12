@@ -11,10 +11,10 @@ def simple_handling(widget, key, event):
     widget.bind(key, lambda e: event())
 
 def err_msg(text):
-    messagebox.showerror(title="Error", message=text)
+    CTkMessagebox(title="Error", message=text, icon="cancel")
 
 def info_msg(text):
-    messagebox.showinfo(title="Info", message=text)
+    CTkMessagebox(title="Info", message=text, icon="Info")
 
 def set_window_icon(root):
     try:
