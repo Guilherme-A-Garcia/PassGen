@@ -6,7 +6,7 @@
 # PassGen 🔒
 PassGen is a neat Python GUI for my password generation logic made with Tkinter.<br>
 It uses only Python standard libraries: Tkinter, Random, String, OS and Sys.<br>
-The [binaries](https://github.com/Guilherme-A-Garcia/PassGen/releases) are currently compiled using [Nuitka](https://nuitka.net/).
+The [binaries](https://github.com/Guilherme-A-Garcia/PassGen/releases) are currently compiled with [Nuitka](https://nuitka.net/).
 
 ## Table of Contents
 - [Preview](#preview)
