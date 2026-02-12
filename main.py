@@ -1,6 +1,6 @@
 from CTkMessagebox import CTkMessagebox
 import customtkinter as ctk
-import random
+import secrets
 import string
 import sys
 import os
@@ -96,7 +96,7 @@ class Controller:
             return
 
         pool = " " + string.ascii_letters + string.digits + string.punctuation
-        password =  ''.join(random.choices(pool, k=int(self.app.char_frame.char_entry.get())))
+        password = ''.join(secrets.choice(pool) for _ in range(int(self.app.char_frame.char_entry.get())))
         self.app.generation_frame.g_entry_label_text.set(password)
         info_msg("Password generated successfully.")
 
