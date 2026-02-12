@@ -12,6 +12,7 @@ The [binaries](https://github.com/Guilherme-A-Garcia/PassGen/releases) are curre
 - [Preview](#preview)
 - [Current Features](#current-features)
 - [Requirements](#requirements)
+- [Using the Source Code](#using-the-source-code)
 - [How to Use](#how-to-use)
 - [Roadmap](#roadmap)
 - [Contributing](#contributing)
@@ -32,7 +33,7 @@ If you wish to use the source code version you will need to install [Python](htt
 Otherwise, if you're planning on using the binary, you won't need to install any third-party application or interpreter.<br>
 While this works for Windows, you will still need the [Wine compatibility layer](https://www.winehq.org/) for Linux. 🍷
 
-## Using the source-code
+## Using the Source Code
 
 1.  **Clone the repository:**
     ```bash
