@@ -46,20 +46,28 @@ class Controller:
 
     def __init__(self):
         self.app = PassGenApp(self)
-
-        self.app.gen_button.configure(command=self.generate)
-        self.app.buttons_frame.save_to_txt_button.configure(command=self.save)
-        self.app.buttons_frame.copy_button.configure(command=self.copy)
-        self.app.buttons_frame.clear_button.configure(command=self.clear)
-
-        simple_handling(self.app.char_frame.char_entry, Controller.RETURN_KEY, self.generate)
-        simple_handling(self.app.gen_button, Controller.RETURN_KEY, self.generate)
-        simple_handling(self.app.buttons_frame.save_to_txt_button, Controller.RETURN_KEY, self.save)
-        simple_handling(self.app.buttons_frame.clear_button, Controller.RETURN_KEY, self.clear)
-        simple_handling(self.app.buttons_frame.copy_button, Controller.RETURN_KEY, self.copy)
+        self.button_wiring()
+        self.event_wiring()
 
         self.app.bind("<Button-1>", lambda e: e.widget.focus())
-        
+    
+    def button_wiring(self):
+        buttons_actions = [(self.app.gen_button, self.generate),
+                   (self.app.buttons_frame.save_to_txt_button, self.save),
+                   (self.app.buttons_frame.copy_button, self.copy),
+                   (self.app.buttons_frame.clear_button, self.clear)]
+        for button, action in buttons_actions:
+            button.configure(command=action)
+
+    def event_wiring(self):
+        elements_events = [(self.app.char_frame.char_entry, self.generate),
+                          (self.app.gen_button, self.generate),
+                          (self.app.buttons_frame.save_to_txt_button, self.save),
+                          (self.app.buttons_frame.clear_button, self.clear),
+                          (self.app.buttons_frame.copy_button, self.copy)]
+        for element, event in elements_events:
+            simple_handling(widget=element, key=Controller.RETURN_KEY, event=event)
+
     def generate(self):
         self.value = self.app.char_frame.char_entry.get().strip()
         
