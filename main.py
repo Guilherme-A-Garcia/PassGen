@@ -10,7 +10,7 @@ def main():
     app.app.mainloop()
 
 def err_msg(text):
-    CTkMessagebox(title="Error", message=text, icon="cancel", option_focus=1, button_color="#950808", button_hover_color="#630202", )
+    CTkMessagebox(title="Error", message=text, icon="cancel", option_focus=1, button_color="#950808", button_hover_color="#630202")
 
 def info_msg(text):
     CTkMessagebox(title="Info", message=text, icon="info", option_focus=1, button_color="#950808", button_hover_color="#630202")
