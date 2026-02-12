@@ -1,6 +1,4 @@
-import tkinter as tk, random, string, os, sys
-from tkinter import messagebox, filedialog, Label, Button, Entry, ttk
-import customtkinter as ctk
+import customtkinter as ctk, random, string, os, sys
 from CTkMessagebox import CTkMessagebox
 
 def main():
