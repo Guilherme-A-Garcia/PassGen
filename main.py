@@ -48,6 +48,9 @@ class Controller:
         self.button_wiring()
         self.event_wiring()
     
+    def set_theme(self):
+        pass
+    
     def button_wiring(self):
         buttons_actions = [(self.app.gen_button, self.generate),
                    (self.app.buttons_frame.save_to_txt_button, self.save),
@@ -158,6 +161,13 @@ class PassGenApp(ctk.CTk):
         self.buttons_frame.pack(pady=5)
 
         self.char_frame.char_entry.focus_set()
+
+class ThemeFrame(ctk.CTkFrame):
+    def __init__(self, parent):
+        super().__init__(parent)
+
+        self.columnconfigure((0, 1), weight=1)
+        self.rowconfigure(0, weight=1)
 
 class CharFrame(ctk.CTkFrame):
     def __init__(self, parent):
