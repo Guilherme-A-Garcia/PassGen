@@ -142,6 +142,9 @@ class PassGenApp(ctk.CTk):
         self.resizable(False, False)
         set_window_icon(self)
 
+        self.themes = ThemeFrame(self)
+        self.themes.pack()
+        
         self.main_label = ctk.CTkLabel(self, text="Password Generator", font=('', 35), fg_color="transparent")
         self.main_label.pack(pady=(25,0))
 
@@ -168,6 +171,9 @@ class ThemeFrame(ctk.CTkFrame):
 
         self.columnconfigure((0, 1), weight=1)
         self.rowconfigure(0, weight=1)
+
+        self.switch = ctk.CTkSwitch(self, text="Current theme:", font=("", 12))
+        self.switch.grid(column=0, row=0)
 
 class CharFrame(ctk.CTkFrame):
     def __init__(self, parent):
