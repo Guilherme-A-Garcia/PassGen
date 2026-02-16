@@ -22,7 +22,6 @@ def set_window_icon(root):
             if not os.path.exists(icon_path):
                 icon_path = os.path.join(os.getcwd(), 'icon.ico')
         else:
-
             icon_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'assets/images/icon.ico')
         
         if os.path.exists(icon_path):
@@ -140,7 +139,7 @@ class PassGenApp(ctk.CTk):
         self.resizable(False, False)
         set_window_icon(self)
 
-        self.main_label = ctk.CTkLabel(self, text="Password Generator", font=("Arial", 20), fg_color="transparent")
+        self.main_label = ctk.CTkLabel(self, text="Password Generator", font=('', 35), fg_color="transparent")
         self.main_label.pack(pady=(25,0))
 
         self.char_frame = CharFrame(self)
