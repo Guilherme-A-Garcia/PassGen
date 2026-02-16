@@ -49,7 +49,8 @@ class Controller:
         self.event_wiring()
     
     def set_theme(self):
-        pass
+        theme = self.app.themes.theme_variable.get()
+        ctk.set_appearance_mode(theme)
     
     def button_wiring(self):
         buttons_actions = [(self.app.gen_button, self.generate),
@@ -135,18 +136,18 @@ class PassGenApp(ctk.CTk):
     def __init__(self, controller):
         super().__init__()
         self.controller = controller
-        self._set_appearance_mode("System")
+        ctk.set_appearance_mode("System")
 
         self.title("PassGen")
-        dynamic_res(self, 500, 280)
+        dynamic_res(self, 500, 282)
         self.resizable(False, False)
         set_window_icon(self)
 
-        self.themes = ThemeFrame(self)
-        self.themes.pack()
+        self.themes = ThemeFrame(self, controller)
+        self.themes.pack(anchor="w", padx=10)
         
         self.main_label = ctk.CTkLabel(self, text="Password Generator", font=('', 35), fg_color="transparent")
-        self.main_label.pack(pady=(25,0))
+        self.main_label.pack(pady=(10,0))
 
         self.char_frame = CharFrame(self)
         self.char_frame.pack(pady=(20,0))
@@ -166,14 +167,18 @@ class PassGenApp(ctk.CTk):
         self.char_frame.char_entry.focus_set()
 
 class ThemeFrame(ctk.CTkFrame):
-    def __init__(self, parent):
-        super().__init__(parent)
+    def __init__(self, parent, controller):
+        super().__init__(parent, fg_color="transparent")
+        self.controller = controller
 
-        self.columnconfigure((0, 1), weight=1)
+        self.columnconfigure(0, weight=1)
         self.rowconfigure(0, weight=1)
 
-        self.switch = ctk.CTkSwitch(self, text="Current theme:", font=("", 12))
-        self.switch.grid(column=0, row=0)
+        self.initial_theme = ctk.get_appearance_mode()
+        self.theme_variable = ctk.StringVar(value=self.initial_theme)
+        self.theme_switch = ctk.CTkSwitch(self, text="Toggle themes (Dark/Light)", font=("", 12), progress_color="#630202", fg_color="#630202", variable=self.theme_variable, command=self.controller.set_theme, offvalue="Dark", onvalue="Light")
+        self.theme_switch.grid(row=0, column=0, padx=0)
+
 
 class CharFrame(ctk.CTkFrame):
     def __init__(self, parent):
@@ -199,7 +204,7 @@ class GenerationFrame(ctk.CTkFrame):
         self.generated_label = ctk.CTkLabel(self, text="Generated password: ", font=("Arial", 14), fg_color="transparent")
         self.generated_label.grid(column=0, row=0)
 
-        self.generated_entry_label = ctk.CTkEntry(self, state="readonly", font=("Arial", 13,), border_width=0)
+        self.generated_entry_label = ctk.CTkEntry(self, state="readonly", font=("Arial", 13,), border_width=1)
         self.g_entry_label_text = ctk.StringVar(value="")
         
         self.generated_entry_label.configure(textvariable=self.g_entry_label_text)
