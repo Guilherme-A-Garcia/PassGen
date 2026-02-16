@@ -179,7 +179,6 @@ class ThemeFrame(ctk.CTkFrame):
         self.theme_switch = ctk.CTkSwitch(self, text="Toggle themes (Dark/Light)", font=("", 12), progress_color="#630202", fg_color="#630202", variable=self.theme_variable, command=self.controller.set_theme, offvalue="Dark", onvalue="Light")
         self.theme_switch.grid(row=0, column=0, padx=0)
 
-
 class CharFrame(ctk.CTkFrame):
     def __init__(self, parent):
         super().__init__(parent, fg_color="transparent")
