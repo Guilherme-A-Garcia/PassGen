@@ -70,8 +70,8 @@ If you wish to clear, copy or export the generated password into a .txt file, cl
 ## Roadmap
 - ✅ Refactor from procedural to OOP;
 - ✅ Migrate to CustomTkinter;
+- ✅ Themes;
 - ❌ Proper Linux support;
-- ❌ Themes;
 - ❌ The main dish: Add cryptography to the mix!
 - ❌ Turn this whole thing into PySide6;
 
