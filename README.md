@@ -37,7 +37,7 @@ While this works for Windows, you will still need the [Wine compatibility layer]
 
 1.  **Clone the repository:**
     ```bash
-    git clone https://github.com/Guilherme-A-Garcia/PassGen/
+    git clone https://github.com/Guilherme-A-Garcia/PassGen.git
     cd PassGen
     ```
 
