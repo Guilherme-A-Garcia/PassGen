@@ -1,4 +1,5 @@
 from CTkMessagebox import CTkMessagebox
+from PIL import Image, ImageTk
 import customtkinter as ctk
 import secrets
 import string
@@ -15,17 +16,34 @@ def err_msg(text):
 def info_msg(text):
     CTkMessagebox(title="Info", message=text, icon="info", option_focus=1, button_color="#950808", button_hover_color="#630202")
 
+def isWindows():
+    if os.name == "nt":
+        return True
+
 def set_window_icon(root):
     try:
-        if getattr(sys, 'frozen', False):
-            icon_path = os.path.join(os.path.dirname(sys.executable), 'icon.ico')
-            if not os.path.exists(icon_path):
-                icon_path = os.path.join(os.getcwd(), 'icon.ico')
+        if isWindows():
+            if getattr(sys, 'frozen', False):
+                icon_path = os.path.join(os.path.dirname(sys.executable), 'icon.ico')
+                if not os.path.exists(icon_path):
+                    icon_path = os.path.join(os.getcwd(), 'icon.ico')
+            else:
+                icon_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'assets/images/icon.ico')
+            
+            if os.path.exists(icon_path):
+                root.iconbitmap(icon_path)
         else:
-            icon_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'assets/images/icon.ico')
-        
-        if os.path.exists(icon_path):
-            root.iconbitmap(icon_path)
+            if getattr(sys, 'frozen', False):
+                icon_path = os.path.join(os.path.dirname(sys.executable), 'icon.png')
+                if not os.path.exists(icon_path):
+                    icon_path = os.path.join(os.getcwd(), 'icon.png')
+            else:
+                icon_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'assets/images/icon.png')
+            
+            if os.path.exists(icon_path):
+                pil_img = Image.open(icon_path).convert("RGBA")
+                imagetk = ImageTk.PhotoImage(pil_img)
+                root.iconphoto(False, imagetk)
     except Exception:
         pass
 

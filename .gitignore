@@ -38,7 +38,8 @@ MANIFEST
 *.onefile-build/
 *.exe
 binaries/
-icon.ico
+/icon.ico
+/icon.png
 
 # Installer logs
 pip-log.txt
