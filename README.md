@@ -24,9 +24,10 @@ The [binaries](https://github.com/Guilherme-A-Garcia/PassGen/releases) are curre
 - Intuitive and modern interface
 - ~~-Basic password generation-~~
 - Proper password generation with the secrets module
+- Password character pool customization
 - Password exportation
-- Error handling with message boxes
 - Dark/Light theme switch
+- Error handling with message boxes
 - Binaries for both Windows and Linux
 
 ## Requirements
@@ -81,7 +82,7 @@ If you wish to clear, copy or export the generated password into a .txt file, cl
 - - [X] Migrate to CustomTkinter;
 - - [x] Themes;
 - - [x] Proper Linux support;
-- - [ ] Introduce advanced character pool customization;
+- - [x] Introduce advanced character pool customization;
 - - [ ] The main dish: Add cryptography to the mix!
 - - [ ] Turn this whole thing into PySide6.
 
