@@ -88,6 +88,10 @@ class Controller:
             simple_handling(widget=element, key=Controller.RETURN_KEY, event=event)
         self.app.bind("<Button-1>", lambda e: e.widget.focus())
 
+    def is_letters_checked(self):
+        if self.app.checkboxes.letters_state.get() == "on":
+            return True
+
     def is_space_checked(self):
         if self.app.checkboxes.spaces_state.get() == "on":
             return True
@@ -128,8 +132,11 @@ class Controller:
             self.app.char_frame.char_entry.focus_set()
             return
 
-        # pool = " " + string.ascii_letters + string.digits + string.punctuation
-        self.pool = string.ascii_letters
+        self.pool = ""
+        
+        if self.is_letters_checked():
+            self.pool = string.ascii_letters
+        
         if self.is_space_checked():
             self.pool = self.pool + " "
         
@@ -138,10 +145,15 @@ class Controller:
         
         if self.is_punctuation_checked():
             self.pool = self.pool + string.punctuation
-            
-        password = ''.join(secrets.choice(self.pool) for _ in range(int(self.app.char_frame.char_entry.get())))
-        self.app.generation_frame.g_entry_label_text.set(password)
-        info_msg("Password generated successfully.")
+        
+        if self.pool == "":
+            err_msg("Please, check at least one box aside from the 'spaces' one.")
+        elif self.pool == " ":
+            err_msg("Please, check at least one box aside from the 'spaces' one.")
+        else:
+            password = ''.join(secrets.choice(self.pool) for _ in range(int(self.app.char_frame.char_entry.get())))
+            self.app.generation_frame.g_entry_label_text.set(password)
+            info_msg("Password generated successfully.")
 
     def clear(self):
         self.app.char_frame.char_entry.delete(0, ctk.END)
@@ -271,23 +283,27 @@ class ButtonsFrame(ctk.CTkFrame):
 class CheckboxFrame(ctk.CTkFrame):
     def __init__(self, parent):
         super().__init__(parent, fg_color="transparent")
-        self.columnconfigure((0,1,2,3), weight=1)
+        self.columnconfigure((0,1,2,3,4), weight=1)
         self.rowconfigure(0, weight=1)
         
         self.checkbox_label = ctk.CTkLabel(self, text="Include:", font=("", 15))
         self.checkbox_label.grid(row=0, column=0, padx=10)
-        
+
+        self.letters_state = ctk.StringVar(value="off")
+        self.letters = ctk.CTkCheckBox(self, text="letters", corner_radius=5, border_width=2, width=10, fg_color="#950808", hover_color="#630202", font=("", 15), onvalue="on", offvalue="off", variable=self.letters_state)
+        self.letters.grid(row=0, column=1)        
+
         self.spaces_state = ctk.StringVar(value="off")
         self.spaces = ctk.CTkCheckBox(self, text="spaces", corner_radius=5, border_width=2, width=10, fg_color="#950808", hover_color="#630202", font=("", 15), onvalue="on", offvalue="off", variable=self.spaces_state)
-        self.spaces.grid(row=0, column=1)
+        self.spaces.grid(row=0, column=2, padx=5)
 
         self.digits_state = ctk.StringVar(value="off")
         self.digits = ctk.CTkCheckBox(self, text="digits", corner_radius=5, border_width=2, width=10, fg_color="#950808", hover_color="#630202", font=("", 15), onvalue="on", offvalue="off", variable=self.digits_state)
-        self.digits.grid(row=0, column=2, padx=10)
+        self.digits.grid(row=0, column=3, padx=5)
         
         self.punctuation_state = ctk.StringVar(value="off")
         self.punctuation = ctk.CTkCheckBox(self, text="punctuation", corner_radius=5, border_width=2, width=10, fg_color="#950808", hover_color="#630202", font=("", 15), onvalue="on", offvalue="off", variable=self.punctuation_state)
-        self.punctuation.grid(row=0, column=3)
+        self.punctuation.grid(row=0, column=4)
         
 if __name__ == "__main__":
     main()
