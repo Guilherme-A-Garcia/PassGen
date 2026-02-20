@@ -85,13 +85,12 @@ If you wish to clear, copy or export the generated password into a .txt file, cl
 - - [ ] The main dish: Add cryptography to the mix!
 - - [ ] Turn this whole thing into PySide6.
 
-## Contributing
+## How to Contribute
 ✨ Contributions are always welcome! ✨<br><br>
 
-### How to Contribute:
-*   **Report Bugs**: Open an issue with detailed steps to reproduce.
-*   **Suggest Features**: Open an issue to discuss your idea.
-*   **Contribute Directly to the Code**:<br>
+-   **Report Bugs**: Open an issue with detailed steps to reproduce.
+-   **Suggest Features**: Open an issue to discuss your idea.
+-   **Contribute Directly to the Code**:<br>
     I. Fork the repository;<br>
     II. Create a new branch;<br>
     III. Make your changes and commit;<br>
