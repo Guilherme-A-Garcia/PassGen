@@ -243,5 +243,12 @@ class ButtonsFrame(ctk.CTkFrame):
         self.copy_button = ctk.CTkButton(self, text="Copy", font=("Arial", 12), fg_color="#950808", hover_color="#630202", corner_radius=10, border_color="#440000", border_width=1)
         self.copy_button.grid(row=0, column=2)
 
+class CheckboxFrame(ctk.CTkFrame):
+    def __init__(self, parent):
+        super().__init__(parent, fg_color="transparent")
+        self.columnconfigure((0,1,2,3), weight=1)
+        self.rowconfigure(0, weight=1)
+        checkbox_label = ctk.CTkLabel(text="Include: ")
+
 if __name__ == "__main__":
     main()
