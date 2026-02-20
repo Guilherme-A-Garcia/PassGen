@@ -15,7 +15,7 @@ The [binaries](https://github.com/Guilherme-A-Garcia/PassGen/releases) are curre
 - [How to Use](#how-to-use)
 - [Using the Source Code](#using-the-source-code)
 - [Roadmap](#roadmap)
-- [Contributing](#contributing)
+- [How to Contribute](#how-to-contribute)
 
 ## Preview
 ![Main Interface](assets/images/previews/preview.png)
