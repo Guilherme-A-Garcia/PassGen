@@ -204,7 +204,7 @@ class CharFrame(ctk.CTkFrame):
         self.columnconfigure((0, 1), weight=1)
         self.rowconfigure(0, weight=1)
 
-        self.char_label = ctk.CTkLabel(self, text="Enter the character amount:", font=("Arial", 16), fg_color="transparent")
+        self.char_label = ctk.CTkLabel(self, text="Set the length:", font=("Arial", 16), fg_color="transparent")
         self.char_label.grid(column=0, row=0, padx=(0,5))
 
         self.char_entry = ctk.CTkEntry(self, border_width=1, corner_radius=5, font=("Arial", 13))
