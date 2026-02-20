@@ -157,7 +157,7 @@ class PassGenApp(ctk.CTk):
         ctk.set_appearance_mode("System")
 
         self.title("PassGen")
-        dynamic_res(self, 500, 282)
+        dynamic_res(self, 500, 290)
         self.resizable(False, False)
         set_window_icon(self)
 
@@ -170,11 +170,15 @@ class PassGenApp(ctk.CTk):
         self.char_frame = CharFrame(self)
         self.char_frame.pack(pady=(20,0))
         
+        self.checkboxes = CheckboxFrame(self)
+        self.checkboxes.pack()
+        
         self.gen_button = ctk.CTkButton(self, text="Generate", font=("",15), fg_color="#950808", hover_color="#630202", corner_radius=10, border_color="#440000", border_width=1)
-        self.gen_button.pack(pady=15)
+        self.gen_button.pack(pady=(3, 0))
+        
         
         self.separator = ctk.CTkFrame(self, height=2, fg_color="#1C1C1C")
-        self.separator.pack(fill="x", pady=(0,15), padx=53)
+        self.separator.pack(fill="x", pady=10, padx=53)
 
         self.generation_frame = GenerationFrame(self)
         self.generation_frame.pack(pady=(0,5))
@@ -234,13 +238,13 @@ class ButtonsFrame(ctk.CTkFrame):
         self.columnconfigure((0, 2), weight=1)
         self.rowconfigure(0, weight=1)
 
-        self.save_to_txt_button = ctk.CTkButton(self, text="Save", font=("Arial", 12), fg_color="#950808", hover_color="#630202", corner_radius=10, border_color="#440000", border_width=1)
+        self.save_to_txt_button = ctk.CTkButton(self, text="Save", font=("Arial", 12), fg_color="#950808", hover_color="#630202", corner_radius=10, border_color="#440000", border_width=1, width=80, height=22)
         self.save_to_txt_button.grid(row=0, column=0)
 
-        self.clear_button = ctk.CTkButton(self, text="Clear fields", font=("Arial", 12), fg_color="#950808", hover_color="#630202", corner_radius=10, border_color="#440000", border_width=1)
-        self.clear_button.grid(row=0, column=1, padx=5)
+        self.clear_button = ctk.CTkButton(self, text="Clear fields", font=("Arial", 12), fg_color="#950808", hover_color="#630202", corner_radius=10, border_color="#440000", border_width=1, width=80, height=22)
+        self.clear_button.grid(row=0, column=1, padx=15)
 
-        self.copy_button = ctk.CTkButton(self, text="Copy", font=("Arial", 12), fg_color="#950808", hover_color="#630202", corner_radius=10, border_color="#440000", border_width=1)
+        self.copy_button = ctk.CTkButton(self, text="Copy", font=("Arial", 12), fg_color="#950808", hover_color="#630202", corner_radius=10, border_color="#440000", border_width=1, width=80, height=22)
         self.copy_button.grid(row=0, column=2)
 
 class CheckboxFrame(ctk.CTkFrame):
@@ -248,7 +252,8 @@ class CheckboxFrame(ctk.CTkFrame):
         super().__init__(parent, fg_color="transparent")
         self.columnconfigure((0,1,2,3), weight=1)
         self.rowconfigure(0, weight=1)
-        checkbox_label = ctk.CTkLabel(text="Include: ")
+        checkbox_label = ctk.CTkLabel(self, text="Include:")
+        checkbox_label.grid(row=0, column= 0)
 
 if __name__ == "__main__":
     main()
