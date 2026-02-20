@@ -88,6 +88,22 @@ class Controller:
             simple_handling(widget=element, key=Controller.RETURN_KEY, event=event)
         self.app.bind("<Button-1>", lambda e: e.widget.focus())
 
+    def is_letters_checked(self):
+        if self.app.checkboxes.letters_state.get() == "on":
+            return True
+
+    def is_space_checked(self):
+        if self.app.checkboxes.spaces_state.get() == "on":
+            return True
+        
+    def is_digits_checked(self):
+        if self.app.checkboxes.digits_state.get() == "on":
+            return True 
+        
+    def is_punctuation_checked(self):
+        if self.app.checkboxes.punctuation_state.get() == "on":
+            return True 
+
     def generate(self):
         self.value = self.app.char_frame.char_entry.get().strip()
         
@@ -116,10 +132,28 @@ class Controller:
             self.app.char_frame.char_entry.focus_set()
             return
 
-        pool = " " + string.ascii_letters + string.digits + string.punctuation
-        password = ''.join(secrets.choice(pool) for _ in range(int(self.app.char_frame.char_entry.get())))
-        self.app.generation_frame.g_entry_label_text.set(password)
-        info_msg("Password generated successfully.")
+        self.pool = ""
+        
+        if self.is_letters_checked():
+            self.pool = string.ascii_letters
+        
+        if self.is_space_checked():
+            self.pool = self.pool + " "
+        
+        if self.is_digits_checked():
+            self.pool = self.pool + string.digits
+        
+        if self.is_punctuation_checked():
+            self.pool = self.pool + string.punctuation
+        
+        if self.pool == "":
+            err_msg("Please, check at least one box aside from the 'spaces' one.")
+        elif self.pool == " ":
+            err_msg("Please, check at least one box aside from the 'spaces' one.")
+        else:
+            password = ''.join(secrets.choice(self.pool) for _ in range(int(self.app.char_frame.char_entry.get())))
+            self.app.generation_frame.g_entry_label_text.set(password)
+            info_msg("Password generated successfully.")
 
     def clear(self):
         self.app.char_frame.char_entry.delete(0, ctk.END)
@@ -157,7 +191,7 @@ class PassGenApp(ctk.CTk):
         ctk.set_appearance_mode("System")
 
         self.title("PassGen")
-        dynamic_res(self, 500, 282)
+        dynamic_res(self, 500, 290)
         self.resizable(False, False)
         set_window_icon(self)
 
@@ -168,13 +202,16 @@ class PassGenApp(ctk.CTk):
         self.main_label.pack(pady=(10,0))
 
         self.char_frame = CharFrame(self)
-        self.char_frame.pack(pady=(20,0))
+        self.char_frame.pack(pady=(5,0))
+        
+        self.checkboxes = CheckboxFrame(self)
+        self.checkboxes.pack(pady=10)
         
         self.gen_button = ctk.CTkButton(self, text="Generate", font=("",15), fg_color="#950808", hover_color="#630202", corner_radius=10, border_color="#440000", border_width=1)
-        self.gen_button.pack(pady=15)
+        self.gen_button.pack(pady=(3, 0))
         
         self.separator = ctk.CTkFrame(self, height=2, fg_color="#1C1C1C")
-        self.separator.pack(fill="x", pady=(0,15), padx=53)
+        self.separator.pack(fill="x", pady=10, padx=53)
 
         self.generation_frame = GenerationFrame(self)
         self.generation_frame.pack(pady=(0,5))
@@ -204,7 +241,7 @@ class CharFrame(ctk.CTkFrame):
         self.columnconfigure((0, 1), weight=1)
         self.rowconfigure(0, weight=1)
 
-        self.char_label = ctk.CTkLabel(self, text="Enter the character amount:", font=("Arial", 16), fg_color="transparent")
+        self.char_label = ctk.CTkLabel(self, text="Set the length:", font=("Arial", 16), fg_color="transparent")
         self.char_label.grid(column=0, row=0, padx=(0,5))
 
         self.char_entry = ctk.CTkEntry(self, border_width=1, corner_radius=5, font=("Arial", 13))
@@ -234,14 +271,39 @@ class ButtonsFrame(ctk.CTkFrame):
         self.columnconfigure((0, 2), weight=1)
         self.rowconfigure(0, weight=1)
 
-        self.save_to_txt_button = ctk.CTkButton(self, text="Save", font=("Arial", 12), fg_color="#950808", hover_color="#630202", corner_radius=10, border_color="#440000", border_width=1)
+        self.save_to_txt_button = ctk.CTkButton(self, text="Save", font=("Arial", 12), fg_color="#950808", hover_color="#630202", corner_radius=10, border_color="#440000", border_width=1, width=80, height=22)
         self.save_to_txt_button.grid(row=0, column=0)
 
-        self.clear_button = ctk.CTkButton(self, text="Clear fields", font=("Arial", 12), fg_color="#950808", hover_color="#630202", corner_radius=10, border_color="#440000", border_width=1)
-        self.clear_button.grid(row=0, column=1, padx=5)
+        self.clear_button = ctk.CTkButton(self, text="Clear fields", font=("Arial", 12), fg_color="#950808", hover_color="#630202", corner_radius=10, border_color="#440000", border_width=1, width=80, height=22)
+        self.clear_button.grid(row=0, column=1, padx=15)
 
-        self.copy_button = ctk.CTkButton(self, text="Copy", font=("Arial", 12), fg_color="#950808", hover_color="#630202", corner_radius=10, border_color="#440000", border_width=1)
+        self.copy_button = ctk.CTkButton(self, text="Copy", font=("Arial", 12), fg_color="#950808", hover_color="#630202", corner_radius=10, border_color="#440000", border_width=1, width=80, height=22)
         self.copy_button.grid(row=0, column=2)
 
+class CheckboxFrame(ctk.CTkFrame):
+    def __init__(self, parent):
+        super().__init__(parent, fg_color="transparent")
+        self.columnconfigure((0,1,2,3,4), weight=1)
+        self.rowconfigure(0, weight=1)
+        
+        self.checkbox_label = ctk.CTkLabel(self, text="Include:", font=("", 15))
+        self.checkbox_label.grid(row=0, column=0, padx=10)
+
+        self.letters_state = ctk.StringVar(value="off")
+        self.letters = ctk.CTkCheckBox(self, text="letters", corner_radius=5, border_width=2, width=10, fg_color="#950808", hover_color="#630202", font=("", 15), onvalue="on", offvalue="off", variable=self.letters_state)
+        self.letters.grid(row=0, column=1)        
+
+        self.spaces_state = ctk.StringVar(value="off")
+        self.spaces = ctk.CTkCheckBox(self, text="spaces", corner_radius=5, border_width=2, width=10, fg_color="#950808", hover_color="#630202", font=("", 15), onvalue="on", offvalue="off", variable=self.spaces_state)
+        self.spaces.grid(row=0, column=2, padx=5)
+
+        self.digits_state = ctk.StringVar(value="off")
+        self.digits = ctk.CTkCheckBox(self, text="digits", corner_radius=5, border_width=2, width=10, fg_color="#950808", hover_color="#630202", font=("", 15), onvalue="on", offvalue="off", variable=self.digits_state)
+        self.digits.grid(row=0, column=3, padx=5)
+        
+        self.punctuation_state = ctk.StringVar(value="off")
+        self.punctuation = ctk.CTkCheckBox(self, text="punctuation", corner_radius=5, border_width=2, width=10, fg_color="#950808", hover_color="#630202", font=("", 15), onvalue="on", offvalue="off", variable=self.punctuation_state)
+        self.punctuation.grid(row=0, column=4)
+        
 if __name__ == "__main__":
     main()
