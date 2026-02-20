@@ -35,10 +35,13 @@ If you wish to use the source code version you will need to install [Python](htt
 Otherwise, if you're planning on using the binary, you won't need to install any third-party application or interpreter.<br>
 
 ## How to Use
-1. Download the latest release of this project (Or download the latest version of the repository);
-2. Execute the .exe binary (or the .AppImage binary if you're on Linux);
-3. Input the amount of characters your password will have;
-4. Click "Enter" to generate the password.
+1. Download the latest release of this project (Or download the latest version of the repository);<br>
+
+2. Execute the .exe binary (or the .AppImage binary if you're on Linux);<br>
+
+3. Input the amount of characters your password will have;<br>
+
+4. Click "Enter" to generate the password.<br>
 
 If you wish to clear, copy or export the generated password into a .txt file, click the respective button.
 
@@ -67,6 +70,11 @@ If you wish to clear, copy or export the generated password into a .txt file, cl
     ```bash
     pip install -r requirements.txt
     ```
+
+4. **Run main.py within the project's directory:**
+   ```bash
+   python main.py
+   ```
 
 ## Roadmap
 - ✅ Refactor from procedural to OOP;
