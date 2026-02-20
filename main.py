@@ -168,14 +168,13 @@ class PassGenApp(ctk.CTk):
         self.main_label.pack(pady=(10,0))
 
         self.char_frame = CharFrame(self)
-        self.char_frame.pack(pady=(20,0))
+        self.char_frame.pack(pady=(5,0))
         
         self.checkboxes = CheckboxFrame(self)
-        self.checkboxes.pack()
+        self.checkboxes.pack(pady=10)
         
         self.gen_button = ctk.CTkButton(self, text="Generate", font=("",15), fg_color="#950808", hover_color="#630202", corner_radius=10, border_color="#440000", border_width=1)
         self.gen_button.pack(pady=(3, 0))
-        
         
         self.separator = ctk.CTkFrame(self, height=2, fg_color="#1C1C1C")
         self.separator.pack(fill="x", pady=10, padx=53)
@@ -252,8 +251,18 @@ class CheckboxFrame(ctk.CTkFrame):
         super().__init__(parent, fg_color="transparent")
         self.columnconfigure((0,1,2,3), weight=1)
         self.rowconfigure(0, weight=1)
-        checkbox_label = ctk.CTkLabel(self, text="Include:")
-        checkbox_label.grid(row=0, column= 0)
+        
+        self.checkbox_label = ctk.CTkLabel(self, text="Include:", font=("", 15))
+        self.checkbox_label.grid(row=0, column=0, padx=10)
+        
+        self.spaces = ctk.CTkCheckBox(self, text="spaces", corner_radius=5, border_width=2, width=10, fg_color="#950808", hover_color="#630202", font=("", 15))
+        self.spaces.grid(row=0, column=1)
 
+        self.digits = ctk.CTkCheckBox(self, text="digits", corner_radius=5, border_width=2, width=10, fg_color="#950808", hover_color="#630202", font=("", 15))
+        self.digits.grid(row=0, column=2, padx=10)
+        
+        self.punctuation = ctk.CTkCheckBox(self, text="punctuation", corner_radius=5, border_width=2, width=10, fg_color="#950808", hover_color="#630202", font=("", 15))
+        self.punctuation.grid(row=0, column=3)
+        
 if __name__ == "__main__":
     main()
