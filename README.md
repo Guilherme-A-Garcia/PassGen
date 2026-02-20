@@ -77,12 +77,13 @@ If you wish to clear, copy or export the generated password into a .txt file, cl
    ```
 
 ## Roadmap
-- ✅ Refactor from procedural to OOP;
-- ✅ Migrate to CustomTkinter;
-- ✅ Themes;
-- ✅ Proper Linux support;
-- ❌ The main dish: Add cryptography to the mix!
-- ❌ Turn this whole thing into PySide6;
+- - [X] Refactor from procedural to OOP;
+- - [X] Migrate to CustomTkinter;
+- - [x] Themes;
+- - [x] Proper Linux support;
+- - [ ] Introduce advanced character pool customization;
+- - [ ] The main dish: Add cryptography to the mix!
+- - [ ] Turn this whole thing into PySide6.
 
 ## Contributing
 ✨ Contributions are always welcome! ✨<br><br>
