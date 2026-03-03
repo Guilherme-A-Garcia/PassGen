@@ -34,6 +34,7 @@ The [binaries](https://github.com/Guilherme-A-Garcia/PassGen/releases) are curre
 If you wish to use the source code version you will need to install [Python](https://www.python.org/downloads/).🐍<br>
 
 Otherwise, if you're planning on using the binary, you won't need to install any third-party application or interpreter.<br>
+If you're a Linux user, don't forget to grant executable permissions to the .AppImage binary with `chmod +x`!
 
 ## How to Use
 1. Download the latest release of this project (Or download the latest version of the repository);<br>
