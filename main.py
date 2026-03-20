@@ -194,6 +194,10 @@ class Controller:
             self.app.clipboard_clear()
             self.app.clipboard_append(self.text)
 
+    def show_update_window(self):
+        self.app.withdraw()
+        UpdateWindow(self.app, self)
+
     def fetch_git_version(self):
         try:
             req_url = "https://github.com/Guilherme-A-Garcia/PassGen/releases/latest"
@@ -260,6 +264,7 @@ class Controller:
             os.system(f'start /b cmd /c "timeout /nobreak > nul 2 & move /y "{new_file_abs}" "{file_name_abs}" >nul 2>&1 &"')
             os._exit(0)
             os.system('exit')
+            
         
         self.app.destroy()
         sys.exit()
@@ -300,6 +305,40 @@ class PassGenApp(ctk.CTk):
         self.buttons_frame.pack(pady=5)
 
         self.char_frame.char_entry.focus_set()
+        
+class UpdateWindow(ctk.CTkToplevel):
+    def __init__(self, master, controller):
+        super().__init__(master)
+        self.master = master
+        self.controller = controller
+        
+        self.title("Updating in process...")
+        dynamic_resolution(self, 450, 100)
+        self.resizable(False, False)
+        self.bind("<Button-1>", lambda e: e.widget.focus())
+        self.protocol("WM_DELETE_WINDOW", self.on_closing)
+        
+        set_window_icon(self)
+        dynamic_resolution(self, 450, 100)
+        self.resizable(False, False)
+        self.title('Updating...')
+        self.bind("<Button-1>", lambda e: e.widget.focus())
+        self.protocol("WM_DELETE_WINDOW", self.on_closing)
+        
+        self.progress_label1 = ctk.CTkLabel(self, text="Update in progress.", font=("", 20))
+        self.progress_label1.pack()
+        
+        self.progress_label2 = ctk.CTkLabel(self, text="Please, don't close this window while the application is being updated.", font=("", 12))
+        self.progress_label2.pack()
+        
+        self.progress_bar = ctk.CTkProgressBar(self, orientation="horizontal", height=10, width=400, corner_radius=10, progress_color="#770505", fg_color="#808080", mode="indeterminate", border_color="#1d0000", border_width=1)
+        self.progress_bar.pack(pady=10)
+        self.progress_bar.start()
+        
+    def on_closing(self):
+        self.destroy()
+        self.master.destroy()
+        
 
 class ThemeFrame(ctk.CTkFrame):
     def __init__(self, parent, controller):
@@ -371,7 +410,7 @@ class CheckboxFrame(ctk.CTkFrame):
 
         self.letters_state = ctk.StringVar(value="off")
         self.letters = ctk.CTkCheckBox(self, text="letters", corner_radius=5, border_width=2, width=10, fg_color="#950808", hover_color="#630202", font=("", 15), onvalue="on", offvalue="off", variable=self.letters_state)
-        self.letters.grid(row=0, column=1)        
+        self.letters.grid(row=0, column=1)
 
         self.spaces_state = ctk.StringVar(value="off")
         self.spaces = ctk.CTkCheckBox(self, text="spaces", corner_radius=5, border_width=2, width=10, fg_color="#950808", hover_color="#630202", font=("", 15), onvalue="on", offvalue="off", variable=self.spaces_state)
