@@ -25,25 +25,27 @@ def isWindows():
     if os.name == "nt":
         return True
 
+def grab_icon(icon:str):
+    try:
+        if getattr(sys, 'frozen', False):
+            icon_path = os.path.join(os.path.dirname(sys.executable), icon)
+            if not os.path.exists(icon_path):
+                icon_path = os.path.join(os.getcwd(), icon)
+        else:
+            icon_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), icon)
+        return icon_path
+    except Exception:
+        pass
+
 def set_window_icon(root):
     try:
         if isWindows():
-            if getattr(sys, 'frozen', False):
-                icon_path = os.path.join(os.path.dirname(sys.executable), 'icon.ico')
-                if not os.path.exists(icon_path):
-                    icon_path = os.path.join(os.getcwd(), 'icon.ico')
-            else:
-                icon_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'assets/images/icon.ico')
-            
+            icon_path = grab_icon('icon.ico')
+
             if os.path.exists(icon_path):
                 root.after(150, root.iconbitmap(icon_path))
         else:
-            if getattr(sys, 'frozen', False):
-                icon_path = os.path.join(os.path.dirname(sys.executable), 'icon.png')
-                if not os.path.exists(icon_path):
-                    icon_path = os.path.join(os.getcwd(), 'icon.png')
-            else:
-                icon_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'assets/images/icon.png')
+            icon_path = grab_icon('icon.png')
             
             if os.path.exists(icon_path):
                 pil_img = Image.open(icon_path).convert("RGBA")
