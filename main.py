@@ -70,6 +70,7 @@ class Controller:
         self.app = PassGenApp(self)
         self.button_wiring()
         self.event_wiring()
+        self.fetch_git_version()
     
     def set_theme(self):
         theme = self.app.themes.theme_variable.get()
@@ -194,7 +195,7 @@ class Controller:
             req_url = "https://github.com/Guilherme-A-Garcia/PassGen/releases/latest"
             req_response = requests.get(req_url)
             soup = BeautifulSoup(req_response.text, 'html.parser')
-            git_version = soup.find('span', class_='css.truncate-target').text.strip()
+            git_version = soup.find('span', class_='css-truncate-target').text.strip()
             print(f'GitHub located version: {git_version}')
             
             if git_version != Controller.CURRENT_VERSION:
