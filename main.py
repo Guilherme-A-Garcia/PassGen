@@ -94,6 +94,9 @@ class Controller:
             simple_handling(widget=element, key=Controller.RETURN_KEY, event=event)
         self.app.bind("<Button-1>", lambda e: e.widget.focus())
 
+    def is_linux(self):
+        return sys.platform.startswith('linux')
+
     def is_letters_checked(self):
         if self.app.checkboxes.letters_state.get() == "on":
             return True
