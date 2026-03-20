@@ -209,6 +209,9 @@ class Controller:
     def auto_update_thread(self):
         pass
     
+    def update_app(self):
+        pass
+    
     def get_app_dir(self):
         if getattr(sys, 'frozen', False):
             try:
