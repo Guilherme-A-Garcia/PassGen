@@ -63,8 +63,8 @@ def dynamic_res(d_root, horizontal, vertical):
 
 
 class Controller:
+    CURRENT_VERSION = "v2.4.0"
     RETURN_KEY = "<Return>"
-
     def __init__(self):
         self.app = PassGenApp(self)
         self.button_wiring()
@@ -188,6 +188,16 @@ class Controller:
             self.app.clipboard_clear()
             self.app.clipboard_append(self.text)
 
+    def fetch_git_version(self):
+        pass
+    
+    def auto_update_thread(self):
+        pass
+    
+    def get_app_dir(self):
+        pass
+    
+    
 class PassGenApp(ctk.CTk):
     def __init__(self, controller):
         super().__init__()
