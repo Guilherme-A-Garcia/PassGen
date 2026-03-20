@@ -1,6 +1,11 @@
 from CTkMessagebox import CTkMessagebox
 from PIL import Image, ImageTk
+from bs4 import BeautifulSoup
 import customtkinter as ctk
+import urllib.request
+import subprocess
+import threading
+import requests
 import secrets
 import string
 import sys
@@ -20,25 +25,27 @@ def isWindows():
     if os.name == "nt":
         return True
 
+def grab_icon(icon:str):
+    try:
+        if getattr(sys, 'frozen', False):
+            icon_path = os.path.join(os.path.dirname(sys.executable), icon)
+            if not os.path.exists(icon_path):
+                icon_path = os.path.join(os.getcwd(), icon)
+        else:
+            icon_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), icon)
+        return icon_path
+    except Exception:
+        pass
+
 def set_window_icon(root):
     try:
         if isWindows():
-            if getattr(sys, 'frozen', False):
-                icon_path = os.path.join(os.path.dirname(sys.executable), 'icon.ico')
-                if not os.path.exists(icon_path):
-                    icon_path = os.path.join(os.getcwd(), 'icon.ico')
-            else:
-                icon_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'assets/images/icon.ico')
-            
+            icon_path = grab_icon('icon.ico')
+
             if os.path.exists(icon_path):
-                root.iconbitmap(icon_path)
+                root.after(150, root.iconbitmap(icon_path))
         else:
-            if getattr(sys, 'frozen', False):
-                icon_path = os.path.join(os.path.dirname(sys.executable), 'icon.png')
-                if not os.path.exists(icon_path):
-                    icon_path = os.path.join(os.getcwd(), 'icon.png')
-            else:
-                icon_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'assets/images/icon.png')
+            icon_path = grab_icon('icon.png')
             
             if os.path.exists(icon_path):
                 pil_img = Image.open(icon_path).convert("RGBA")
@@ -59,12 +66,14 @@ def dynamic_res(d_root, horizontal, vertical):
 
 
 class Controller:
+    CURRENT_VERSION = "v2.4.0"
     RETURN_KEY = "<Return>"
-
     def __init__(self):
+        self.different_version = False
         self.app = PassGenApp(self)
         self.button_wiring()
         self.event_wiring()
+        self.auto_update_thread()
     
     def set_theme(self):
         theme = self.app.themes.theme_variable.get()
@@ -87,6 +96,9 @@ class Controller:
         for element, event in elements_events:
             simple_handling(widget=element, key=Controller.RETURN_KEY, event=event)
         self.app.bind("<Button-1>", lambda e: e.widget.focus())
+
+    def is_linux(self):
+        return sys.platform.startswith('linux')
 
     def is_letters_checked(self):
         if self.app.checkboxes.letters_state.get() == "on":
@@ -184,6 +196,124 @@ class Controller:
             self.app.clipboard_clear()
             self.app.clipboard_append(self.text)
 
+    def show_update_window(self):
+        self.app.withdraw()
+        UpdateWindow(self.app, self)
+
+    def fetch_git_version(self):
+        try:
+            req_url = "https://github.com/Guilherme-A-Garcia/PassGen/releases/latest"
+            req_response = requests.get(req_url)
+            soup = BeautifulSoup(req_response.text, 'html.parser')
+            git_version = soup.find('span', class_='css-truncate-target').text.strip()
+            print(f'GitHub located version: {git_version}')
+            
+            if git_version != Controller.CURRENT_VERSION:
+                self.different_version = True
+        except Exception as e:
+            print(e)
+    
+    def auto_update_thread(self):
+        def update_thread(inputted_thread):
+            if inputted_thread.is_alive():
+                self.app.after(10, lambda: update_thread(inputted_thread))
+            else:
+                print(f"Thread {inputted_thread} ended successfully!")
+                if inputted_thread == self.thread1:
+                    check_update()
+                    
+        self.thread1 = threading.Thread(target=self.fetch_git_version)
+        self.thread1.start()
+        update_thread(self.thread1)
+        
+        def check_update():
+            if self.different_version:
+                msg = CTkMessagebox(message="A newer version has been detected, would you like to update?", title='Update Detected', option_1='Yes', option_2='No', option_focus=2, button_color="#950808", button_hover_color="#630202")
+                if msg.get() == 'Yes':
+                    self.show_update_window()
+                    self.thread2 = threading.Thread(target=self.update_app)
+                    self.thread2.start()
+                    update_thread(self.thread2)
+                else:
+                    return
+                    
+    def update_app(self):
+        url = ''
+        cwd = self.get_app_dir()
+        file_path = ''
+        
+        print("Update directory: ", cwd)
+        
+        if os.path.exists(cwd):
+            if self.is_linux():
+                url = 'https://github.com/Guilherme-A-Garcia/PassGen/releases/latest/download/PassGen-x86_64.AppImage'
+                file_path = os.path.join(cwd, 'PassGen-x86_64-NEW.AppImage')
+            else:
+                url = 'https://github.com/Guilherme-A-Garcia/PassGen/releases/latest/download/PassGen.exe'
+                file_path = os.path.join(cwd, 'PassGen-NEW.exe')
+                
+            print("Downloading to: ", file_path)
+            
+            try:
+                urllib.request.urlretrieve(url, file_path)
+            except Exception as e:
+                err_msg(f"An error has occurred while downloading the update, the application will now close: {e}")
+                self.app.destroy()
+            success_msg = CTkMessagebox(message='Update finished successfully. Closing application...', title='Success', icon="check", button_color="#950808", button_hover_color="#630202")
+            success_msg.get()
+            self.close_and_rename()
+    
+    def get_app_dir(self):
+        if getattr(sys, 'frozen', False):
+            try:
+                path = os.path.abspath(sys.argv[0])
+                dir_path = os.path.dirname(path)
+                if os.path.exists(dir_path):
+                    return dir_path
+            except Exception:
+                pass
+            
+            try:
+                cwd = os.getcwd()
+                if os.path.exists(cwd):
+                    return cwd
+            except Exception:
+                pass
+            
+            try:
+                temp_dir = os.path.dirname(sys.executable)
+                parent = os.path.abspath(os.path.join(temp_dir, '..'))
+                if os.path.exists(parent):
+                    return parent
+            except Exception:
+                pass
+        return os.getcwd()
+    
+    def close_and_rename(self):
+        if self.is_linux():
+            new_file = 'PassGen-x86_64-NEW.AppImage'
+            file_name = 'PassGen-x86_64.AppImage'
+            
+            cmd = ['sh', '-c', f'(sleep 1; mv "{new_file}" "{file_name}"; chmod +x "{file_name}"; exec "{os.path.abspath(file_name)}") >/dev/null 2>&1']
+            subprocess.Popen(cmd, stdout=subprocess.DEVNULL, stdin=subprocess.DEVNULL, stderr=subprocess.DEVNULL, start_new_session=True, close_fds=True)
+            os._exit(0)
+        else:
+            cwd = self.get_app_dir()
+            
+            new_file = 'PassGen-NEW.exe'
+            file_name = 'PassGen.exe'
+            
+            new_file_abs = os.path.join(cwd, new_file)
+            file_name_abs = os.path.join(cwd, file_name)
+            
+            os.system(f'start /b cmd /c "timeout /nobreak > nul 2 & move /y "{new_file_abs}" "{file_name_abs}" >nul 2>&1 &"')
+            os._exit(0)
+            os.system('exit')
+            
+        
+        self.app.destroy()
+        sys.exit()
+
 class PassGenApp(ctk.CTk):
     def __init__(self, controller):
         super().__init__()
@@ -220,6 +350,34 @@ class PassGenApp(ctk.CTk):
         self.buttons_frame.pack(pady=5)
 
         self.char_frame.char_entry.focus_set()
+        
+class UpdateWindow(ctk.CTkToplevel):
+    def __init__(self, master, controller):
+        super().__init__(master)
+        self.master = master
+        self.controller = controller
+        
+        self.after(200, lambda: set_window_icon(self))
+        dynamic_res(self, 450, 100)
+        self.resizable(False, False)
+        self.title('Updating in process...')
+        self.bind("<Button-1>", lambda e: e.widget.focus())
+        self.protocol("WM_DELETE_WINDOW", self.on_closing)
+        
+        self.progress_label1 = ctk.CTkLabel(self, text="Update in progress.", font=("", 20))
+        self.progress_label1.pack()
+        
+        self.progress_label2 = ctk.CTkLabel(self, text="Please, don't close this window while the application is being updated.", font=("", 12))
+        self.progress_label2.pack()
+        
+        self.progress_bar = ctk.CTkProgressBar(self, orientation="horizontal", height=10, width=400, corner_radius=10, progress_color="#770505", fg_color="#808080", mode="indeterminate", border_color="#1d0000", border_width=1)
+        self.progress_bar.pack(pady=10)
+        self.progress_bar.start()
+        
+    def on_closing(self):
+        self.destroy()
+        self.master.destroy()
+        
 
 class ThemeFrame(ctk.CTkFrame):
     def __init__(self, parent, controller):
@@ -291,7 +449,7 @@ class CheckboxFrame(ctk.CTkFrame):
 
         self.letters_state = ctk.StringVar(value="off")
         self.letters = ctk.CTkCheckBox(self, text="letters", corner_radius=5, border_width=2, width=10, fg_color="#950808", hover_color="#630202", font=("", 15), onvalue="on", offvalue="off", variable=self.letters_state)
-        self.letters.grid(row=0, column=1)        
+        self.letters.grid(row=0, column=1)
 
         self.spaces_state = ctk.StringVar(value="off")
         self.spaces = ctk.CTkCheckBox(self, text="spaces", corner_radius=5, border_width=2, width=10, fg_color="#950808", hover_color="#630202", font=("", 15), onvalue="on", offvalue="off", variable=self.spaces_state)
