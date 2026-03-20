@@ -71,7 +71,7 @@ class Controller:
         self.app = PassGenApp(self)
         self.button_wiring()
         self.event_wiring()
-        self.fetch_git_version()
+        self.auto_update_thread()
     
     def set_theme(self):
         theme = self.app.themes.theme_variable.get()
@@ -212,8 +212,29 @@ class Controller:
             print(e)
     
     def auto_update_thread(self):
-        pass
-    
+        def update_thread(inputted_thread):
+            if inputted_thread.is_alive():
+                self.app.after(10, lambda: update_thread(inputted_thread))
+            else:
+                print(f"Thread {inputted_thread} ended successfully!")
+                if inputted_thread == self.thread1:
+                    check_update()
+                    
+        self.thread1 = threading.Thread(target=self.fetch_git_version)
+        self.thread1.start()
+        update_thread(self.thread1)
+        
+        def check_update():
+            if self.different_version:
+                msg = CTkMessagebox(message="A newer version has been detected, would you like to update?", title='Update Detected', option_1='Yes', option_2='No', option_focus=2, button_color="#950808", button_hover_color="#630202")
+                if msg.get() == 'Yes':
+                    self.show_update_window()
+                    self.thread2 = threading.Thread(target=self.update_app)
+                    self.thread2.start()
+                    update_thread(self.thread2)
+                else:
+                    return
+                    
     def update_app(self):
         url = ''
         cwd = self.get_app_dir()
@@ -333,16 +354,10 @@ class UpdateWindow(ctk.CTkToplevel):
         self.master = master
         self.controller = controller
         
-        self.title("Updating in process...")
-        dynamic_resolution(self, 450, 100)
-        self.resizable(False, False)
-        self.bind("<Button-1>", lambda e: e.widget.focus())
-        self.protocol("WM_DELETE_WINDOW", self.on_closing)
-        
         set_window_icon(self)
-        dynamic_resolution(self, 450, 100)
+        dynamic_res(self, 450, 100)
         self.resizable(False, False)
-        self.title('Updating...')
+        self.title('Updating in process...')
         self.bind("<Button-1>", lambda e: e.widget.focus())
         self.protocol("WM_DELETE_WINDOW", self.on_closing)
         
