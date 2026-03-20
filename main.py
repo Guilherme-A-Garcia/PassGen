@@ -209,7 +209,9 @@ class Controller:
     def get_app_dir(self):
         pass
     
-    
+    def close_and_rename(self):
+        pass
+
 class PassGenApp(ctk.CTk):
     def __init__(self, controller):
         super().__init__()
