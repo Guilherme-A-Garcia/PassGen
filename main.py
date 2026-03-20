@@ -215,7 +215,29 @@ class Controller:
         pass
     
     def update_app(self):
-        pass
+        url = ''
+        cwd = self.get_app_dir()
+        file_path = ''
+        
+        print("Update directory: ", cwd)
+        
+        if os.path.exists(cwd):
+            if self.is_linux():
+                url = 'https://github.com/Guilherme-A-Garcia/PassGen/releases/latest/download/PassGen-x86_64.AppImage'
+                file_path = os.path.join(cwd, 'PassGen-x86_64-NEW.AppImage')
+            else:
+                url = 'https://github.com/Guilherme-A-Garcia/PassGen/releases/latest/download/PassGen.exe'
+                file_path = os.path.join(cwd, 'PassGen-NEW.exe')
+                
+            print("Downloading to: ", file_path)
+            
+            try:
+                urllib.request.urlretrieve(url, file_path)
+            except Exception as e:
+                err_msg(f"An error has occurred while downloading the update, the application will now close: {e}")
+                self.app.destroy()
+            success_msg('Update finished successfully. Closing application...')
+            self.close_and_rename()
     
     def get_app_dir(self):
         if getattr(sys, 'frozen', False):
@@ -244,7 +266,6 @@ class Controller:
         return os.getcwd()
     
     def close_and_rename(self):
-        
         if self.is_linux():
             new_file = 'PassGen-x86_64-NEW.AppImage'
             file_name = 'PassGen-x86_64.AppImage'
