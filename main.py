@@ -257,7 +257,8 @@ class Controller:
             except Exception as e:
                 err_msg(f"An error has occurred while downloading the update, the application will now close: {e}")
                 self.app.destroy()
-            success_msg('Update finished successfully. Closing application...')
+            success_msg = CTkMessagebox(message='Update finished successfully. Closing application...', title='Success', icon="check", button_color="#950808", button_hover_color="#630202")
+            success_msg.get()
             self.close_and_rename()
     
     def get_app_dir(self):
@@ -293,7 +294,7 @@ class Controller:
             
             cmd = ['sh', '-c', f'(sleep 1; mv "{new_file}" "{file_name}"; chmod +x "{file_name}"; exec "{os.path.abspath(file_name)}") >/dev/null 2>&1']
             subprocess.Popen(cmd, stdout=subprocess.DEVNULL, stdin=subprocess.DEVNULL, stderr=subprocess.DEVNULL, start_new_session=True, close_fds=True)
-            os.exit(0)
+            os._exit(0)
         else:
             cwd = self.get_app_dir()
             
