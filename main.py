@@ -36,7 +36,7 @@ def set_window_icon(root):
                 icon_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'assets/images/icon.ico')
             
             if os.path.exists(icon_path):
-                root.iconbitmap(icon_path)
+                root.after(150, root.iconbitmap(icon_path))
         else:
             if getattr(sys, 'frozen', False):
                 icon_path = os.path.join(os.path.dirname(sys.executable), 'icon.png')
@@ -355,7 +355,7 @@ class UpdateWindow(ctk.CTkToplevel):
         self.master = master
         self.controller = controller
         
-        set_window_icon(self)
+        self.after(200, lambda: set_window_icon(self))
         dynamic_res(self, 450, 100)
         self.resizable(False, False)
         self.title('Updating in process...')
