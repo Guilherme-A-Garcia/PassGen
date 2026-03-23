@@ -29,6 +29,7 @@ The [binaries](https://github.com/Guilherme-A-Garcia/PassGen/releases) are curre
 - Dark/Light theme switch
 - Error handling with message boxes
 - Binaries for both Windows and Linux
+- Automatic binary updates
 
 ## Requirements
 If you wish to use the source code version you will need to install [Python](https://www.python.org/downloads/).🐍<br>
