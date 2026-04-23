@@ -85,7 +85,6 @@ If you wish to clear, copy or export the generated password into a .txt file, cl
 - - [x] Themes;
 - - [x] Proper Linux support;
 - - [x] Introduce advanced character pool customization;
-- - [ ] The main dish: Add cryptography to the mix!
 - - [ ] Turn this whole thing into PySide6.
 
 ## How to Contribute
